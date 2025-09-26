@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cards/core/presentation/page/consts.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class SpeechBubble extends CustomPainter {
   @override
