@@ -56,7 +56,7 @@ class GamePage extends StatelessWidget{
               clipBehavior: Clip.none,
               children: [
                 CustomPaint(
-                  size: Size(appWidth, 200),
+                  size: Size(appWidth - 32, 200),
                   painter: SpeechBubble(),
                 ),
               ],
@@ -65,8 +65,8 @@ class GamePage extends StatelessWidget{
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        child: Footer(),
         color: fialka,
+        child: Footer(),
       ),
       backgroundColor: black,
     );

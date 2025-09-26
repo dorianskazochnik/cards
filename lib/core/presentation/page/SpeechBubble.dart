@@ -25,6 +25,8 @@ class SpeechBubble extends CustomPainter {
     canvas.drawPath(path, paintexl);
     final circle2 = Offset(size.width - 32, h + 32);
     canvas.drawCircle(circle2, 32.0, paintmain);
+    final rect2 = Rect.fromLTWH(size.width - 32, size.height - 31, 32, 32);
+    canvas.drawRect(rect2, paintmain);
   }
 
   @override

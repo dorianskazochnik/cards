@@ -15,20 +15,17 @@ class HoverButton extends StatefulWidget {
 
 class HoverState extends State<HoverButton> {
   bool hovered = false;
+  int p = 0;
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
       onExit: (_) {
         setState(() {
           hovered = false;
+          p = widget.k;
         });
       },
       onEnter: (_) {
-        setState(() {
-          hovered = true;
-        });
-      },
-      onHover: (_) {
         setState(() {
           hovered = true;
         });
