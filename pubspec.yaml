@@ -31,6 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_svg: ^2.2.1
+  json_annotation: ^4.9.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -39,6 +40,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  build_runner: ^2.6.0
+  json_serializable: ^6.10.0
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -93,6 +96,7 @@ flutter:
     - lib/utils/cross.svg
     - lib/utils/menu.svg
     - lib/utils/logo.svg
+    - lib/core/data/round.json
   fonts:
     - family: Halvar
       fonts:

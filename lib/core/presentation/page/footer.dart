@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cards/core/presentation/page/consts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:cards/core/presentation/page/CustomPainters.dart';
 import 'package:cards/core/presentation/page/HoverButton.dart';
 
 class Footer extends StatelessWidget{

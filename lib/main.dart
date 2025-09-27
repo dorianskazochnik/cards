@@ -1,13 +1,20 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:cards/core/presentation/page/consts.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cards/core/presentation/page/footer.dart';
 import 'package:cards/core/presentation/page/SpeechBubble.dart';
+import 'package:cards/core/presentation/page/round.dart';
+import 'package:cards/core/data/round.json';
 
 void main() {
-  runApp(Cards());
+  //runApp(Cards());
+  print(round.fromJson(rootBundle.loadString('lib/core/data/round.json') as Map<String, dynamic>));
 }
-
+/*
 class Cards extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -72,3 +79,4 @@ class GamePage extends StatelessWidget{
     );
   }
 }
+*/
