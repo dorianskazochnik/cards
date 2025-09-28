@@ -14,4 +14,7 @@ class Word extends StatelessWidget {
       child: Text(text),
     );
   }
+  String getChoice() {
+    return (isSelected? text: "");
+  }
 }

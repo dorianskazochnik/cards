@@ -1,20 +1,16 @@
-import 'dart:convert';
-import 'dart:io';
-
+import 'dart:math';
+import 'package:cards/core/domain/round.dart';
 import 'package:flutter/material.dart';
 import 'package:cards/core/presentation/page/consts.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cards/core/presentation/page/footer.dart';
 import 'package:cards/core/presentation/page/SpeechBubble.dart';
-import 'package:cards/core/presentation/page/round.dart';
-import 'package:cards/core/data/round.json';
 
 void main() {
-  //runApp(Cards());
-  print(round.fromJson(rootBundle.loadString('lib/core/data/round.json') as Map<String, dynamic>));
+  runApp(Cards());
 }
-/*
+
 class Cards extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -36,7 +32,7 @@ class GamePage extends StatelessWidget{
     double appWidth = MediaQuery.of(context).size.width;
     double appHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: AppBar(
+        appBar: AppBar(
         toolbarHeight: 56,
         actionsPadding: EdgeInsets.only(right: appWidth - 64),
         actions: [
@@ -50,23 +46,36 @@ class GamePage extends StatelessWidget{
       ),
       body: Center(
         widthFactor: appWidth,
-        heightFactor: appHeight - 56,
+        heightFactor: appHeight - 160,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Container(
-              height: appWidth,
+              height: max(appHeight - 380, 300),
               width: appWidth,
               alignment: Alignment.topCenter,
+              child: FutureBuilder(
+                future: loadJsonData(),
+                builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+                  Map<String, dynamic>? data = {};
+                  if (snapshot.hasData) {
+                    data = snapshot.data;
+                  }
+                  return Text(data?['ask']);
+                },
+              ),
             ),
-            Stack(
-              clipBehavior: Clip.none,
-              children: [
-                CustomPaint(
-                  size: Size(appWidth - 32, 200),
-                  painter: SpeechBubble(),
-                ),
-              ],
+            Container(
+              height: 200,
+              alignment: Alignment.bottomCenter,
+              child: Stack(
+                children: [
+                  CustomPaint(
+                    size: Size(appWidth - 32, 200),
+                    painter: SpeechBubble(),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -79,4 +88,3 @@ class GamePage extends StatelessWidget{
     );
   }
 }
-*/
