@@ -77,34 +77,38 @@ class GamePage extends StatelessWidget{
                 width: appWidth - 80,
               ),
             ),
-            FutureBuilder(
-              future: getData(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting || snapshot.hasError) {
-                  return KeyWordText(
-                    text: [],
-                    keywordsstr: [],
-                    width: appWidth - 32,
-                    height: 200,);
-                }
-                else if (snapshot.hasData && snapshot.data != null) {
-                  var data = snapshot.data;
-                  return KeyWordText(
-                    text: List<String>.from(data?['ask']?? []),
-                    keywordsstr: List<String>.from(data?['keywords'] ?? []),
-                    width: appWidth - 32,
-                    height: 200
-                  );
-                }
-                else {
-                  return KeyWordText(
-                    text: [],
-                    keywordsstr: [],
-                    width: appWidth - 32,
-                    height: 200,);
-                }
-              },
-            ),
+            Positioned(
+              bottom: 10,
+              child: FutureBuilder(
+                future: getData(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting || snapshot.hasError) {
+                    return KeyWordText(
+                      text: [],
+                      keywordsstr: [],
+                      width: appWidth - 32,
+                      height: 200,);
+                  }
+                  else if (snapshot.hasData && snapshot.data != null) {
+                    var data = snapshot.data;
+                    return KeyWordText(
+                        text: List<String>.from(data?['ask']?? []),
+                        keywordsstr: List<String>.from(data?['keywords'] ?? []),
+                        width: appWidth - 32,
+                        height: 200
+                    );
+                  }
+                  else {
+                    return KeyWordText(
+                      text: [],
+                      keywordsstr: [],
+                      width: appWidth - 32,
+                      height: 200,
+                    );
+                  }
+                },
+              ),
+            )
           ],
         ),
       ),
