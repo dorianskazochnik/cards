@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:cards/core/presentation/page/consts.dart';
 
 class KeyWordText extends StatefulWidget {
-  final String text;
-  final String keywordsstr;
+  final List<String> text;
+  final List<String> keywordsstr;
   final double width, height;
   KeyWordText({required this.text, required this.keywordsstr, required this.width, required this.height});
 
@@ -21,20 +21,22 @@ class KeyWordTextState extends State<KeyWordText> {
   @override
   Widget build(BuildContext context) {
     List<InlineSpan> textSpans = [];
-    List<String> keywords = widget.keywordsstr.split(',').toList();
-    for (String word in widget.text.split(' ')) {
-      bool selected = selectedKeywords.contains(word);
-      bool keyword = (keywords.contains(' $word') || keywords.contains(' $word]') || keywords.contains('[$word'));
-      textSpans.add(WidgetSpan(
-        child: Text(
-          '$word ',
-          style: TextStyle(
-            color: black,
-            fontSize: sizetext,
-            fontFamily: "Gazprombank-Sans",
+    List<String> keywords = widget.keywordsstr;
+    for (String word in widget.text) {
+      String kword = word.split('.').join().split('?').join().split(',').join();
+      bool selected = selectedKeywords.contains(kword);
+      bool keyword = (keywords.contains(kword));
+      textSpans.add(
+        WidgetSpan(
+          child: Text(
+            '$word ',
+            style: TextStyle(
+              color: black,
+              fontSize: sizetext,
+              fontFamily: "Gazprombank-Sans",
+            ),
           ),
-        ),
-      )
+        )
       );
       if (keyword) {
         textSpans.last = WidgetSpan(
@@ -42,11 +44,11 @@ class KeyWordTextState extends State<KeyWordText> {
             onTap: () {
               if (selected) {
                 setState(() {
-                  selectedKeywords.remove(word);
+                  selectedKeywords.remove(kword);
                 });
               } else if (selectedKeywords.length < 3){
                 setState(() {
-                  selectedKeywords.add(word);
+                  selectedKeywords.add(kword);
                 });
               }
             },

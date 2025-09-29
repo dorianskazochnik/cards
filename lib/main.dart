@@ -25,6 +25,10 @@ class Cards extends StatelessWidget {
 }
 
 class GamePage extends StatelessWidget{
+  Future<Map<String, dynamic>?> getData() async {
+    return await loadJsonData();
+  }
+
   @override
   Widget build(BuildContext context) {
     final outputState = context.findAncestorStateOfType<KeyWordTextState>();
@@ -74,14 +78,32 @@ class GamePage extends StatelessWidget{
               ),
             ),
             FutureBuilder(
-              future: loadJsonData(),
+              future: getData(),
               builder: (context, snapshot) {
-                if (!(snapshot.hasError || snapshot.connectionState == ConnectionState.waiting)) {
-                  return KeyWordText(text: "${snapshot.data?['ask']}", keywordsstr: "${snapshot.data?['keywords']}", width: appWidth - 32, height: 200,);
-                } else {
-                  return KeyWordText(text: "", keywordsstr: "", width: appWidth - 32, height: 200,);
+                if (snapshot.connectionState == ConnectionState.waiting || snapshot.hasError) {
+                  return KeyWordText(
+                    text: [],
+                    keywordsstr: [],
+                    width: appWidth - 32,
+                    height: 200,);
                 }
-              }
+                else if (snapshot.hasData && snapshot.data != null) {
+                  var data = snapshot.data;
+                  return KeyWordText(
+                    text: List<String>.from(data?['ask']?? []),
+                    keywordsstr: List<String>.from(data?['keywords'] ?? []),
+                    width: appWidth - 32,
+                    height: 200
+                  );
+                }
+                else {
+                  return KeyWordText(
+                    text: [],
+                    keywordsstr: [],
+                    width: appWidth - 32,
+                    height: 200,);
+                }
+              },
             ),
           ],
         ),
