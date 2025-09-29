@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'dart:ui';
 import 'package:cards/core/domain/round.dart';
 import 'package:flutter/material.dart';
 import 'package:cards/core/presentation/page/consts.dart';
@@ -41,47 +41,47 @@ class GamePage extends StatelessWidget{
     return Scaffold(
         appBar: AppBar(
         toolbarHeight: 56,
-        actionsPadding: EdgeInsets.only(right: appWidth - 64),
+        actionsPadding: EdgeInsets.only(right: (appWidth * 3 + 64) / 4),
         actions: [
           SvgPicture.asset(
             'lib/utils/logo.svg',
             colorFilter: ColorFilter.mode(white, BlendMode.srcIn),
-            width: 48,
+            width: (appWidth - 80) / 4,
           ),
         ],
       ),
-      body: Center(
-        widthFactor: appWidth,
-        heightFactor: appHeight - 160,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+      body: Container(
+        width: appWidth,
+        height: appHeight - 160,
+        child: Stack(
+          clipBehavior: Clip.none,
+          alignment: Alignment.bottomCenter,
           children: [
-            Container(
-              height: max(appHeight - 380, 300),
-              width: appWidth,
-              alignment: Alignment.topCenter,
-            ),
-            Container(
-              height: max(200, appHeight - 700),
-              alignment: Alignment.bottomCenter,
-              child: Stack(
-                children: [
-                  CustomPaint(
-                    size: Size(appWidth - 32, max(200, appHeight - 700)),
-                    painter: SpeechBubble(),
-                  ),
-                  FutureBuilder(
-                    future: loadJsonData(),
-                    builder: (context, snapshot) {
-                      if (!(snapshot.hasError || snapshot.connectionState == ConnectionState.waiting)) {
-                        return KeyWordText(text: "${snapshot.data?['ask']}", keywordsstr: "${snapshot.data?['keywords']}", width: appWidth - 32, height: max(200, appHeight - 700),);
-                      } else {
-                        return KeyWordText(text: "", keywordsstr: "", width: appWidth - 32, height: max(200, appHeight - 700),);
-                      }
-                    }
-                  ),
-                ],
+            Positioned (
+              left: 16,
+              bottom: 10,
+              child: CustomPaint(
+                size: Size(appWidth - 32, 200),
+                painter: SpeechBubble(),
               ),
+            ),
+            Positioned(
+              bottom: 150,
+              child: Image.asset(
+                'lib/utils/cat.png',
+                colorBlendMode: BlendMode.dst,
+                width: appWidth - 80,
+              ),
+            ),
+            FutureBuilder(
+              future: loadJsonData(),
+              builder: (context, snapshot) {
+                if (!(snapshot.hasError || snapshot.connectionState == ConnectionState.waiting)) {
+                  return KeyWordText(text: "${snapshot.data?['ask']}", keywordsstr: "${snapshot.data?['keywords']}", width: appWidth - 32, height: 200,);
+                } else {
+                  return KeyWordText(text: "", keywordsstr: "", width: appWidth - 32, height: 200,);
+                }
+              }
             ),
           ],
         ),
