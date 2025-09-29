@@ -27,6 +27,15 @@ class Cards extends StatelessWidget {
 class GamePage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
+    final outputState = context.findAncestorStateOfType<KeyWordTextState>();
+    Set<String> output = {};
+    if (outputState != null) {
+      output = outputState.getSelectedKeywords();
+    }
+    Set<String> getOutput() {
+      return output;
+    }
+
     double appWidth = MediaQuery.of(context).size.width;
     double appHeight = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -53,21 +62,21 @@ class GamePage extends StatelessWidget{
               alignment: Alignment.topCenter,
             ),
             Container(
-              height: 200,
+              height: max(200, appHeight - 700),
               alignment: Alignment.bottomCenter,
               child: Stack(
                 children: [
                   CustomPaint(
-                    size: Size(appWidth - 32, 200),
+                    size: Size(appWidth - 32, max(200, appHeight - 700)),
                     painter: SpeechBubble(),
                   ),
                   FutureBuilder(
                     future: loadJsonData(),
                     builder: (context, snapshot) {
                       if (!(snapshot.hasError || snapshot.connectionState == ConnectionState.waiting)) {
-                        return KeyWordText(text: "${snapshot.data?['ask']}", keywordsstr: "${snapshot.data?['keywords']}");
+                        return KeyWordText(text: "${snapshot.data?['ask']}", keywordsstr: "${snapshot.data?['keywords']}", width: appWidth - 32, height: max(200, appHeight - 700),);
                       } else {
-                        return KeyWordText(text: "", keywordsstr: "");
+                        return KeyWordText(text: "", keywordsstr: "", width: appWidth - 32, height: max(200, appHeight - 700),);
                       }
                     }
                   ),
