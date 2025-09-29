@@ -99,6 +99,8 @@ flutter:
     - lib/utils/menu.svg
     - lib/utils/logo.svg
     - lib/core/data/round.json
+    - lib/utils/cat.svg
+    - lib/utils/cat.png
   fonts:
     - family: Halvar
       fonts:
