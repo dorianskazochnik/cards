@@ -41,7 +41,7 @@ class Footer extends StatelessWidget{
               picture: SvgPicture.asset('lib/utils/cross.svg', colorFilter: ColorFilter.mode(white, BlendMode.srcIn), width: 48, height: 48),
               width: appWidth,
               k: 3,
-              onPressed: closeAppUsingSystemPop,
+              onPressed: closeApp,
 
             ),
           ),

@@ -44,7 +44,7 @@ class HoverState extends State<HoverButton> {
             Positioned(
               bottom: hovered? 0 : -12,
               child: MaterialButton(
-                onPressed: (){},
+                onPressed: widget.onPressed,
                 color: fialka,
                 hoverColor: malina,
                 highlightColor: sakura,

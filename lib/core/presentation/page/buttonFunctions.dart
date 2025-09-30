@@ -1,8 +1,9 @@
 import 'dart:io';
 import 'package:flutter/services.dart';
+import 'dart:developer';
 
-
-void closeAppUsingSystemPop() {
+void closeApp() {
+  log("message");
   if (Platform.isAndroid) {
     SystemNavigator.pop();
   } else if (Platform.isIOS) {
@@ -12,6 +13,9 @@ void closeAppUsingSystemPop() {
 
 void mainMenu()
 {
+  log("menuOpen");
 
 }
-void continuePlaying(){}
+void continuePlaying(){
+  log("continuePlaying");
+}
