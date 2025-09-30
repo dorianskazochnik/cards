@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:cards/core/presentation/page/consts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cards/core/presentation/page/HoverButton.dart';
+import 'dart:io';
+import 'package:flutter/services.dart';
+import 'package:cards/core/presentation/page/buttonFunctions.dart';
 
 class Footer extends StatelessWidget{
   @override
@@ -17,6 +20,7 @@ class Footer extends StatelessWidget{
               picture: SvgPicture.asset('lib/utils/menu.svg', colorFilter: ColorFilter.mode(white, BlendMode.srcIn), width: 48, height: 48),
               width: appWidth,
               k: 2,
+              onPressed: continuePlaying,
             ),
           ),
           Positioned(
@@ -26,6 +30,8 @@ class Footer extends StatelessWidget{
               picture: SvgPicture.asset('lib/utils/arrow.svg', colorFilter: ColorFilter.mode(white, BlendMode.srcIn), width: 48, height: 48),
               width: appWidth,
               k: 1,
+              onPressed: mainMenu,
+
             ),
           ),
           Positioned(
@@ -35,6 +41,8 @@ class Footer extends StatelessWidget{
               picture: SvgPicture.asset('lib/utils/cross.svg', colorFilter: ColorFilter.mode(white, BlendMode.srcIn), width: 48, height: 48),
               width: appWidth,
               k: 3,
+              onPressed: closeAppUsingSystemPop,
+
             ),
           ),
         ]
