@@ -7,8 +7,8 @@ class HoverButton extends StatefulWidget {
   final SvgPicture picture;
   final int k;
   final double width;
-  final VoidCallback onPressed;
-  HoverButton({required this.picture, this.width = 0, this.k = 0, required this.onPressed});
+  final VoidCallback function;
+  HoverButton({required this.picture, this.width = 0, this.k = 0, required this.function});
 
   @override
   HoverState createState() => HoverState();
@@ -32,6 +32,7 @@ class HoverState extends State<HoverButton> {
               bottom: pressed? 0 : -12,
               child: MaterialButton(
                 onPressed: () {
+                  widget.function;
                   setState(() {
                     pressed = !pressed;
                   });
