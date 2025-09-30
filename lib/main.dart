@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cards/core/presentation/page/footer.dart';
 import 'package:cards/core/presentation/page/SpeechBubble.dart';
 import 'package:cards/core/presentation/page/KeyWordText.dart';
+import 'package:cards/core/presentation/widgets/checkOverlay.dart';
 
 void main() {
   runApp(Cards());
@@ -24,24 +25,22 @@ class Cards extends StatelessWidget {
   }
 }
 
-class GamePage extends StatelessWidget{
+class GamePage extends StatefulWidget {
+  @override
+  GamePageState createState() => GamePageState();
+}
+
+class GamePageState extends State<GamePage> {
   Future<Map<String, dynamic>?> getData() async {
     return await loadJsonData();
   }
 
+  bool textChanged = false;
   @override
   Widget build(BuildContext context) {
-    final outputState = context.findAncestorStateOfType<KeyWordTextState>();
-    Set<String> output = {};
-    if (outputState != null) {
-      output = outputState.getSelectedKeywords();
-    }
-    Set<String> getOutput() {
-      return output;
-    }
-
     double appWidth = MediaQuery.of(context).size.width;
     double appHeight = MediaQuery.of(context).size.height;
+    bool result = false;
     return Scaffold(
         appBar: AppBar(
         toolbarHeight: 56,
@@ -65,50 +64,92 @@ class GamePage extends StatelessWidget{
               left: 16,
               bottom: 10,
               child: CustomPaint(
-                size: Size(appWidth - 32, 200),
+                size: Size(appWidth - 32, 300),
                 painter: SpeechBubble(),
               ),
             ),
             Positioned(
-              bottom: 150,
+              bottom: 250,
               child: Image.asset(
                 'lib/utils/cat.png',
                 colorBlendMode: BlendMode.dst,
                 width: appWidth - 80,
               ),
             ),
+            Positioned (
+                bottom: 252,
+                right: 24,
+                child : FutureBuilder(
+                  future: getData(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting || snapshot.hasError) {
+                      return Text('');
+                    }
+                    else if (snapshot.hasData && snapshot.data != null) {
+                      List<String> results = List<String>.from(snapshot.data?['wrongResult'] ?? []);
+                      String correctresult = snapshot.data?['result'] ?? "";
+                      results.add(correctresult);
+                      return MaterialButton(
+                        onPressed: () async {
+                          result = await showDialog(
+                            context: context,
+                            builder: (context) => CheckOverlay(width: appWidth, height: appHeight, results: results, correct: correctresult),
+                          ) as bool;
+                          setState(() {
+                            textChanged = true;
+                          });
+                        },
+                        color: malina,
+                        highlightColor: sakura,
+                        shape: CircleBorder(),
+                        height: 56,
+                        minWidth: 56,
+                      );
+                    }
+                    else {
+                      return Text('');
+                    }
+                  }
+                )
+            ),
             Positioned(
-              bottom: 10,
-              child: FutureBuilder(
-                future: getData(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting || snapshot.hasError) {
-                    return KeyWordText(
-                      text: [],
-                      keywordsstr: [],
-                      width: appWidth - 32,
-                      height: 200,);
+              bottom: textChanged? 150 : 10,
+                child: FutureBuilder(
+                  future: getData(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting || snapshot.hasError) {
+                      return Text('');
+                    }
+                    else if (snapshot.hasData && snapshot.data != null && !textChanged) {
+                      var data = snapshot.data;
+                      List<String> words = List<String>.from(data?['keywords'] ?? []);
+                      words.addAll(List<String>.from(data?['wrongwords'] ?? []));
+                      return KeyWordText(
+                          text: List<String>.from(data?['ask'] ?? []),
+                          keywordsstr: words,
+                          width: appWidth - 32,
+                          height: 300
+                      );
+                    }
+                    else if (snapshot.hasData && snapshot.data != null) {
+                      var data = snapshot.data;
+                      String wa = data?['wrongAnswer'] ?? "";
+                      String ca = data?['correctAnswer'] ?? "";
+                      return Text(
+                        result? ca : wa,
+                        style: TextStyle(
+                          color: black,
+                          fontSize: sizetext,
+                          fontFamily: "Gazprombank-Sans",
+                        ),
+                      );
+                    }
+                    else {
+                      return Text('');
+                    }
                   }
-                  else if (snapshot.hasData && snapshot.data != null) {
-                    var data = snapshot.data;
-                    return KeyWordText(
-                        text: List<String>.from(data?['ask']?? []),
-                        keywordsstr: List<String>.from(data?['keywords'] ?? []),
-                        width: appWidth - 32,
-                        height: 200
-                    );
-                  }
-                  else {
-                    return KeyWordText(
-                      text: [],
-                      keywordsstr: [],
-                      width: appWidth - 32,
-                      height: 200,
-                    );
-                  }
-                },
-              ),
-            )
+                )
+            ),
           ],
         ),
       ),

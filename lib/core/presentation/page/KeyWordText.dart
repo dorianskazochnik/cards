@@ -21,11 +21,10 @@ class KeyWordTextState extends State<KeyWordText> {
   @override
   Widget build(BuildContext context) {
     List<InlineSpan> textSpans = [];
-    List<String> keywords = widget.keywordsstr;
     for (String word in widget.text) {
       String kword = word.split('.').join().split('?').join().split(',').join();
       bool selected = selectedKeywords.contains(kword);
-      bool keyword = (keywords.contains(kword));
+      bool keyword = widget.keywordsstr.contains(kword);
       textSpans.add(
         WidgetSpan(
           child: Text(

@@ -15,36 +15,27 @@ class HoverButton extends StatefulWidget {
 }
 
 class HoverState extends State<HoverButton> {
-  bool hovered = false;
-  int p = 0;
+  bool pressed = false;
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      onExit: (_) {
-        setState(() {
-          hovered = false;
-          p = widget.k;
-        });
-      },
-      onEnter: (_) {
-        setState(() {
-          hovered = true;
-        });
-      },
-      child: Container(
+    return Container(
         height: 104,
         width: 48,
         clipBehavior: Clip.none,
         child: Stack(
           clipBehavior: Clip.none,
           children: [
-            if (widget.k == 1 && hovered) CustomPaint(size: Size(widget.width, 104), painter: Gap1())
-            else if (widget.k == 3 && hovered) CustomPaint(size: Size(widget.width, 104), painter: Gap3())
-            else if (widget.k == 2 && hovered) CustomPaint(size: Size(widget.width, 104), painter: Gap2()),
+            if (widget.k == 1 && pressed) CustomPaint(size: Size(widget.width, 104), painter: Gap1())
+            else if (widget.k == 3 && pressed) CustomPaint(size: Size(widget.width, 104), painter: Gap3())
+            else if (widget.k == 2 && pressed) CustomPaint(size: Size(widget.width, 104), painter: Gap2()),
             Positioned(
-              bottom: hovered? 0 : -12,
+              bottom: pressed? 0 : -12,
               child: MaterialButton(
-                onPressed: (){},
+                onPressed: () {
+                  setState(() {
+                    pressed = !pressed;
+                  });
+                },
                 color: fialka,
                 hoverColor: malina,
                 highlightColor: sakura,
@@ -54,7 +45,6 @@ class HoverState extends State<HoverButton> {
             ),
           ],
         ),
-      ),
     );
   }
 }
