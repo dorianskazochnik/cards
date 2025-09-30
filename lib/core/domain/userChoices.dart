@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 
 bool wordsChoice(List<String> keywords, List<String> userWords)
 {
-  return assert(listEquals(keywords, userWords));
+  return listEquals(keywords, userWords);
 
 }
 
