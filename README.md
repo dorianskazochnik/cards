@@ -1,16 +1,15 @@
-# cards
+# Hackathon Project: Gasprombank Gamefication App
 
-A new Flutter project.
+Приложение на языке Dart c использованием фреймворка Flutter. Спроектировано по принципам Clean Architecture.
 
-## Getting Started
+## Сюжетная линия
 
-This project is a starting point for a Flutter application.
+Игрок является сотрудником поддержки банка, консультирующим милых зверят. Зверята описывают игроку свои проблемы, и тот должен идентифицировать в их просьбах ключевые слова, выбрать их и определить, какой же из банковских продуктов подойдёт зверятам. За правильные решения игроку даются орешки. 
 
-A few resources to get you started if this is your first Flutter project:
+## Сценарий
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+![хакатон](https://github.com/user-attachments/assets/92d39e8c-a016-4b5a-85fd-696e1afe89c2)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Экономическая модель
+
+За каждую верно решённую проблему пользователю даются виртуальная валюта (орешки), за которые можно разблокировать новые темы приложения банка. Кастомизация привлекает людей и даст стимул продолжить играть в игру, что, в свою очередь, простимулирует процесс обучения. 
