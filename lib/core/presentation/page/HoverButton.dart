@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'dart:developer';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:cards/core/presentation/page/consts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -28,16 +27,14 @@ class HoverState extends State<HoverButton> {
         child: Stack(
           clipBehavior: Clip.none,
           children: [
-            if (widget.k == 1 && pressed) CustomPaint(size: Size(widget.width, 104), painter: Gap1())
+            /*if (widget.k == 1 && pressed) CustomPaint(size: Size(widget.width, 104), painter: Gap1())
             else if (widget.k == 3 && pressed) CustomPaint(size: Size(widget.width, 104), painter: Gap3())
-            else if (widget.k == 2 && pressed) CustomPaint(size: Size(widget.width, 104), painter: Gap2()),
+            else if (widget.k == 2 && pressed) CustomPaint(size: Size(widget.width, 104), painter: Gap2()),*/
             Positioned(
               bottom: pressed? 0 : -12,
               child: MaterialButton(
                 onPressed: ()=>widget.function(),  /*{
-
                   //AudioPlayer().play(AssetSource("standard-key-press-sound.mp3")); //играет звук, но пишет ошибку в консоль про платформу
-
                 },*/
                 color: fialka,
                 hoverColor: malina,

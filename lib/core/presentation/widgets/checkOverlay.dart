@@ -6,11 +6,9 @@ import 'package:cards/core/presentation/page/consts.dart';
 class CheckOverlay extends StatelessWidget {
   final double width, height;
   final List<String> results;
-  final String correct;
-  CheckOverlay({required this.width, required this.height, required this.results, required this.correct});
+  CheckOverlay({required this.width, required this.height, required this.results});
 
   late int selected;
-  late bool res;
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +36,7 @@ class CheckOverlay extends StatelessWidget {
                   TextButton(
                       onPressed: () {
                         selected = 0;
-                        res = outputResult();
-                        Navigator.of(context).pop(res);
+                        Navigator.of(context).pop(results[selected]);
                       },
                       child: Text(
                         results[0],
@@ -53,8 +50,7 @@ class CheckOverlay extends StatelessWidget {
                   TextButton(
                       onPressed: () {
                         selected = 1;
-                        res = outputResult();
-                        Navigator.of(context).pop(res);
+                        Navigator.of(context).pop(results[selected]);
                       },
                       child: Text(
                         results[1],
@@ -68,8 +64,7 @@ class CheckOverlay extends StatelessWidget {
                   TextButton(
                       onPressed: () {
                         selected = 2;
-                        res = outputResult();
-                        Navigator.of(context).pop(res);
+                        Navigator.of(context).pop(results[selected]);
                       },
                       child: Text(
                         results[2],
@@ -87,9 +82,5 @@ class CheckOverlay extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  bool outputResult() {
-    return isResultCorrect(results[selected], correct);
   }
 }

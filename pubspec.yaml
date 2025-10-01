@@ -99,6 +99,7 @@ flutter:
     - lib/utils/menu.svg
     - lib/utils/logo.svg
     - lib/core/data/round.json
+    - lib/core/data/maininfo.json
     - lib/utils/cat.svg
     - lib/utils/cat.png
   fonts:
