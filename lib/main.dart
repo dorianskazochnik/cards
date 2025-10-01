@@ -1,3 +1,4 @@
+import 'dart:io' show Platform;
 import 'dart:ui';
 import 'package:cards/core/domain/mainInfo.dart';
 import 'package:cards/core/domain/round.dart';
@@ -9,6 +10,9 @@ import 'package:cards/core/presentation/page/footer.dart';
 import 'package:cards/core/presentation/page/SpeechBubble.dart';
 import 'package:cards/core/presentation/page/KeyWordText.dart';
 import 'package:cards/core/presentation/widgets/checkOverlay.dart';
+import 'package:flutter/services.dart';
+import 'dart:developer';
+
 
 void main() {
   runApp(Cards());
@@ -57,6 +61,10 @@ class GamePageState extends State<GamePage> {
   Widget build(BuildContext context) {
     double appWidth = MediaQuery.of(context).size.width;
     double appHeight = MediaQuery.of(context).size.height;
+    MediaQuery.of(context).removePadding();
+    MediaQuery.of(context).removeViewInsets();
+    MediaQuery.of(context).removeViewPadding();
+    double margin = 16;
     return Scaffold(
         appBar: AppBar(
         toolbarHeight: 56,
@@ -105,12 +113,10 @@ class GamePageState extends State<GamePage> {
         width: appWidth,
         height: appHeight - 160,
         child: Stack(
-          clipBehavior: Clip.none,
           alignment: Alignment.bottomCenter,
           children: [
             // белое окошко для текста и кнопки
             Positioned (
-              left: 16,
               bottom: 10,
               child: CustomPaint(
                 size: Size(appWidth - 32, 300),
@@ -141,7 +147,7 @@ class GamePageState extends State<GamePage> {
             // здесь код диалогового окна с выбором продукта из трёх
             Positioned (
                 bottom: 252,
-                right: 24,
+                right: margin * 1.5,
                 child : FutureBuilder(
                   future: getData(),
                   builder: (context, snapshot) {
@@ -240,7 +246,7 @@ class GamePageState extends State<GamePage> {
       ),
       bottomNavigationBar: BottomAppBar(
         color: fialka,
-        child: Footer(),
+        child: Footer(margin: margin),
       ),
       backgroundColor: black,
     );

@@ -8,36 +8,39 @@ import 'package:cards/core/domain/buttonFunctions.dart';
 
 // класс футера с тремя кнопками
 class Footer extends StatelessWidget{
+  final double margin;
+  Footer({required this.margin});
+
   @override
   Widget build(BuildContext context) {
     double appWidth = MediaQuery.of(context).size.width;
-    return Stack(
+    return Container(
+      child: Stack(
         clipBehavior: Clip.none,
         children: [
           Positioned(
             bottom: 22,
-            left: (appWidth - 5 * 16) / 2 - 24,
+            left: (appWidth - 5 * 16) / 2 - margin * 1.5,
             child: HoverButton(
               picture: SvgPicture.asset('lib/utils/menu.svg', colorFilter: ColorFilter.mode(white, BlendMode.srcIn), width: 48, height: 48),
               width: appWidth,
               k: 2,
+              function: mainMenu,
+            ),
+          ),
+          Positioned(
+            bottom: 22,
+            left: (appWidth - 5 * 16) / 4 - margin * 4,
+            child: HoverButton(
+              picture: SvgPicture.asset('lib/utils/arrow.svg', colorFilter: ColorFilter.mode(white, BlendMode.srcIn), width: 48, height: 48),
+              width: appWidth,
+              k: 1,
               function: continuePlaying,
             ),
           ),
           Positioned(
             bottom: 22,
-            left: (appWidth - 5 * 16) / 4 - 64,
-            child: HoverButton(
-              picture: SvgPicture.asset('lib/utils/arrow.svg', colorFilter: ColorFilter.mode(white, BlendMode.srcIn), width: 48, height: 48),
-              width: appWidth,
-              k: 1,
-              function: mainMenu,
-
-            ),
-          ),
-          Positioned(
-            bottom: 22,
-            left: (appWidth - 5 * 16) / 4 * 3 + 24,
+            left: (appWidth - 5 * 16) / 4 * 3 + margin * 1.5,
             child: HoverButton(
               picture: SvgPicture.asset('lib/utils/cross.svg', colorFilter: ColorFilter.mode(white, BlendMode.srcIn), width: 48, height: 48),
               width: appWidth,
@@ -47,6 +50,7 @@ class Footer extends StatelessWidget{
             ),
           ),
         ]
+      ),
     );
   }
 }
