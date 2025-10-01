@@ -9,21 +9,21 @@ class KeyWordText extends StatefulWidget {
 
   @override
   KeyWordTextState createState() => KeyWordTextState();
-}
 
-class KeyWordTextState extends State<KeyWordText> {
   Set<String> selectedKeywords = {};
 
   Set<String> getSelectedKeywords() {
     return selectedKeywords;
   }
+}
 
+class KeyWordTextState extends State<KeyWordText> {
   @override
   Widget build(BuildContext context) {
     List<InlineSpan> textSpans = [];
     for (String word in widget.text) {
       String kword = word.split('.').join().split('?').join().split(',').join();
-      bool selected = selectedKeywords.contains(kword);
+      bool selected = widget.selectedKeywords.contains(kword);
       bool keyword = widget.keywordsstr.contains(kword);
       textSpans.add(
         WidgetSpan(
@@ -43,11 +43,11 @@ class KeyWordTextState extends State<KeyWordText> {
             onTap: () {
               if (selected) {
                 setState(() {
-                  selectedKeywords.remove(kword);
+                  widget.selectedKeywords.remove(kword);
                 });
-              } else if (selectedKeywords.length < 3){
+              } else if (widget.selectedKeywords.length < 3){
                 setState(() {
-                  selectedKeywords.add(kword);
+                  widget.selectedKeywords.add(kword);
                 });
               }
             },

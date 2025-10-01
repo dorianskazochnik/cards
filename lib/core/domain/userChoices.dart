@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 
-bool wordsChoice(List<String> keywords, List<String> userWords)
+bool wordsChoice(Set<String> keywords, Set<String> userWords)
 {
-  return listEquals(keywords, userWords);
+  return setEquals(keywords, userWords);
 
 }
 

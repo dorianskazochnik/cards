@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:cards/core/domain/mainInfo.dart';
 import 'package:cards/core/domain/round.dart';
 import 'package:cards/core/domain/userChoices.dart';
 import 'package:flutter/material.dart';
@@ -33,11 +34,19 @@ class GamePage extends StatefulWidget {
 
 class GamePageState extends State<GamePage> {
   Future<Map<String, dynamic>?> getData() async {
-    return await loadJsonData();
+    return await loadJsonDataRound();
+  }
+
+  Future<Map<String, dynamic>?> getPoints() async {
+    return await loadJsonDataPoints();
   }
 
   bool textChanged = false;
   bool result = false;
+  bool resWords = false;
+  Set<String> selectedWords = {};
+  Set<String> correctWords = {};
+  bool answered = false;
 
   @override
   Widget build(BuildContext context) {
@@ -46,12 +55,40 @@ class GamePageState extends State<GamePage> {
     return Scaffold(
         appBar: AppBar(
         toolbarHeight: 56,
-        actionsPadding: EdgeInsets.only(right: (appWidth * 3 + 64) / 4),
+        actionsPadding: EdgeInsets.only(right: (appWidth * 3 + 64) / 4 - sizeheader * 3),
         actions: [
           SvgPicture.asset(
             'lib/utils/logo.svg',
             colorFilter: ColorFilter.mode(white, BlendMode.srcIn),
             width: (appWidth - 80) / 4,
+          ),
+          FutureBuilder(
+            future: getData(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting || snapshot.hasError) {
+                return Text('');
+              }
+              else if (snapshot.hasData && snapshot.data != null) {
+                var data = snapshot.data;
+                int points = data?['userPoints'] ?? 0;
+                if (answered) {
+                  points += 200;
+                  Map<String, dynamic> p = Map<String, dynamic>();
+                  p['userPoints'] = points;
+                  saveJsonDataPoints(p);
+                }
+                return Text(
+                  points.toString(),
+                  style: TextStyle(
+                    color: fialka,
+                    fontSize: sizeheader,
+                    fontFamily: "Halvar",
+                  ),
+                );
+              } else {
+                return Text('');
+              }
+            },
           ),
         ],
       ),
@@ -70,13 +107,24 @@ class GamePageState extends State<GamePage> {
                 painter: SpeechBubble(),
               ),
             ),
-            Positioned(
+            if (!answered) Positioned(
               bottom: 250,
               child: Image.asset(
                 'lib/utils/cat.png',
                 colorBlendMode: BlendMode.dst,
                 width: appWidth - 80,
               ),
+            )
+            else Positioned(
+              bottom: 250,
+              child: Text(
+                '+200 орехов',
+                style: TextStyle(
+                  color: fialka,
+                  fontSize: sizeheader,
+                  fontFamily: "Halvar",
+                ),
+              )
             ),
             Positioned (
                 bottom: 252,
@@ -87,20 +135,26 @@ class GamePageState extends State<GamePage> {
                     if (snapshot.connectionState == ConnectionState.waiting || snapshot.hasError) {
                       return Text('');
                     }
-                    else if (snapshot.hasData && snapshot.data != null) {
+                    else if (snapshot.hasData && snapshot.data != null && !answered) {
                       List<String> results = List<String>.from(snapshot.data?['wrongResult'] ?? []);
                       String correctresult = snapshot.data?['result'] ?? "";
                       results.add(correctresult);
                       return MaterialButton(
                         onPressed: () async {
-                          final String res = await showDialog(
-                            context: context,
-                            builder: (context) => CheckOverlay(width: appWidth + 32, height: appHeight + 32, results: results),
-                          );
                           setState(() {
-                            result = isResultCorrect(res, correctresult);
-                            textChanged = true;
+                            textChanged = !textChanged;
+                            resWords = wordsChoice(correctWords, selectedWords);
                           });
+                          if (resWords) {
+                            final String res = await showDialog(
+                              context: context,
+                              builder: (context) => CheckOverlay(width: appWidth + 32, height: appHeight + 32, results: results),
+                            );
+                            setState(() {
+                              result = isResultCorrect(res, correctresult);
+                              answered = true;
+                            });
+                          }
                         },
                         color: malina,
                         highlightColor: sakura,
@@ -116,7 +170,7 @@ class GamePageState extends State<GamePage> {
                 )
             ),
             Positioned(
-              bottom: textChanged? -70 : 10,
+              bottom: (textChanged)? -70 : 10,
               width: appWidth - 64,
               height: 270,
               child: FutureBuilder(
@@ -125,24 +179,13 @@ class GamePageState extends State<GamePage> {
                   if (snapshot.connectionState == ConnectionState.waiting || snapshot.hasError) {
                     return Text('');
                   }
-                  else if (snapshot.hasData && snapshot.data != null && !(textChanged)) {
-                    var data = snapshot.data;
-                    List<String> words = List<String>.from(data?['keywords'] ?? []);
-                    words.addAll(List<String>.from(data?['wrongwords'] ?? []));
-                    return KeyWordText(
-                        text: List<String>.from(data?['ask'] ?? []),
-                        keywordsstr: words,
-                        width: appWidth - 32,
-                        height: 300
-                    );
-                  }
-                  else if (snapshot.hasData && snapshot.data != null && textChanged) {
+                  else if (snapshot.hasData && snapshot.data != null && textChanged && !answered) {
                     var data = snapshot.data;
                     String wa = data?['wrongAnswer'] ?? "";
                     String ca = data?['correctAnswer'] ?? "";
                     return RichText(
                       text: TextSpan(
-                        text: result? ca : wa,
+                        text: (result || resWords)? ca : wa,
                         style: TextStyle(
                           color: black,
                           fontSize: sizetext,
@@ -150,6 +193,20 @@ class GamePageState extends State<GamePage> {
                         ),
                       ),
                     );
+                  }
+                  else if (snapshot.hasData && snapshot.data != null && !answered) {
+                    var data = snapshot.data;
+                    correctWords = Set<String>.from(data?['keywords'] ?? []);
+                    List<String> words = List<String>.from(data?['keywords'] ?? []);
+                    words.addAll(List<String>.from(data?['wrongwords'] ?? []));
+                    KeyWordText kwt = KeyWordText(
+                        text: List<String>.from(data?['ask'] ?? []),
+                        keywordsstr: words,
+                        width: appWidth - 32,
+                        height: 300
+                    );
+                    selectedWords = kwt.getSelectedKeywords();
+                    return kwt;
                   }
                   else {
                     return Text('');
