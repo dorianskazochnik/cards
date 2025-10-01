@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+// константы темы для удобства быстрого доступа
+
 const white = Color.fromRGBO(222, 225, 238, 1);
 const black = Colors.black;
 const fialka = Color.fromRGBO(25, 25, 239, 1);

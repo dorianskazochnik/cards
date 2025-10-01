@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cards/core/presentation/page/consts.dart';
 
+// класс кастомной отрисовки окна диалога
 class SpeechBubble extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {

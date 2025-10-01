@@ -2,7 +2,7 @@ import 'package:cards/core/domain/userChoices.dart';
 import 'package:flutter/material.dart';
 import 'package:cards/core/presentation/page/consts.dart';
 
-
+//класс диалогового окна с выбором из трёх продуктов
 class CheckOverlay extends StatelessWidget {
   final double width, height;
   final List<String> results;

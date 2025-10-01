@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:cards/core/domain/buttonFunctions.dart';
 
+// класс футера с тремя кнопками
 class Footer extends StatelessWidget{
   @override
   Widget build(BuildContext context) {

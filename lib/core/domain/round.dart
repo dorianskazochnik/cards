@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/services.dart' show rootBundle;
 
+// это парсинг джосна раунда
+
 Future<Map<String, dynamic>> loadJsonDataRound() async {
   final String response = await rootBundle.loadString('lib/core/data/round.json');
   final Map<String, dynamic> data = json.decode(response);

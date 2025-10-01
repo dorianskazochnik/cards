@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cards/core/presentation/page/consts.dart';
 
+// это классы отрисовщиков фона для кнопок, мы убрали их из приложения.
+
 class Gap1 extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {

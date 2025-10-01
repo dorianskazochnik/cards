@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/services.dart' show rootBundle;
 
+// это парсинг джосна поинтов
+
 Future<Map<String, dynamic>> loadJsonDataPoints() async {
   final String response = await rootBundle.loadString('lib/core/data/mainInfo.json');
   final Map<String, dynamic> data = json.decode(response);

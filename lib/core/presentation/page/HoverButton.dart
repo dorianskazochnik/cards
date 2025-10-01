@@ -16,6 +16,8 @@ class HoverButton extends StatefulWidget {
   HoverState createState() => HoverState();
 }
 
+// это задумывалось как очень красивая кнопка с эффектом,
+// в итоге это пока просто кнопка
 class HoverState extends State<HoverButton> {
   bool pressed = false;
   @override

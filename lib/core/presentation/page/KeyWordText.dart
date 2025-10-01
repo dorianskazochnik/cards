@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cards/core/presentation/page/consts.dart';
 
+//класс текстового поля с подсветкой выбранных слов
 class KeyWordText extends StatefulWidget {
   final List<String> text;
   final List<String> keywordsstr;
