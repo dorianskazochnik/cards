@@ -1,3 +1,6 @@
+import 'dart:math';
+import 'dart:developer';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:cards/core/presentation/page/consts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -31,12 +34,11 @@ class HoverState extends State<HoverButton> {
             Positioned(
               bottom: pressed? 0 : -12,
               child: MaterialButton(
-                onPressed: () {
-                  widget.function;
-                  setState(() {
-                    pressed = !pressed;
-                  });
-                },
+                onPressed: ()=>widget.function(),  /*{
+
+                  //AudioPlayer().play(AssetSource("standard-key-press-sound.mp3")); //играет звук, но пишет ошибку в консоль про платформу
+
+                },*/
                 color: fialka,
                 hoverColor: malina,
                 highlightColor: sakura,

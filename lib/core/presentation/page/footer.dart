@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cards/core/presentation/page/HoverButton.dart';
 import 'dart:io';
 import 'package:flutter/services.dart';
-import 'package:cards/core/presentation/page/buttonFunctions.dart';
+import 'package:cards/core/domain/buttonFunctions.dart';
 
 class Footer extends StatelessWidget{
   @override
