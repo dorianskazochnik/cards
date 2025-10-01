@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:cards/core/domain/round.dart';
+import 'package:cards/core/domain/userChoices.dart';
 import 'package:flutter/material.dart';
 import 'package:cards/core/presentation/page/consts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -36,11 +37,12 @@ class GamePageState extends State<GamePage> {
   }
 
   bool textChanged = false;
+  bool result = false;
+
   @override
   Widget build(BuildContext context) {
     double appWidth = MediaQuery.of(context).size.width;
     double appHeight = MediaQuery.of(context).size.height;
-    bool result = false;
     return Scaffold(
         appBar: AppBar(
         toolbarHeight: 56,
@@ -91,11 +93,12 @@ class GamePageState extends State<GamePage> {
                       results.add(correctresult);
                       return MaterialButton(
                         onPressed: () async {
-                          result = await showDialog(
+                          final String res = await showDialog(
                             context: context,
-                            builder: (context) => CheckOverlay(width: appWidth, height: appHeight, results: results, correct: correctresult),
-                          ) as bool;
+                            builder: (context) => CheckOverlay(width: appWidth + 32, height: appHeight + 32, results: results),
+                          );
                           setState(() {
+                            result = isResultCorrect(res, correctresult);
                             textChanged = true;
                           });
                         },
@@ -113,42 +116,46 @@ class GamePageState extends State<GamePage> {
                 )
             ),
             Positioned(
-              bottom: textChanged? 150 : 10,
-                child: FutureBuilder(
-                  future: getData(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting || snapshot.hasError) {
-                      return Text('');
-                    }
-                    else if (snapshot.hasData && snapshot.data != null && !textChanged) {
-                      var data = snapshot.data;
-                      List<String> words = List<String>.from(data?['keywords'] ?? []);
-                      words.addAll(List<String>.from(data?['wrongwords'] ?? []));
-                      return KeyWordText(
-                          text: List<String>.from(data?['ask'] ?? []),
-                          keywordsstr: words,
-                          width: appWidth - 32,
-                          height: 300
-                      );
-                    }
-                    else if (snapshot.hasData && snapshot.data != null) {
-                      var data = snapshot.data;
-                      String wa = data?['wrongAnswer'] ?? "";
-                      String ca = data?['correctAnswer'] ?? "";
-                      return Text(
-                        result? ca : wa,
+              bottom: textChanged? -70 : 10,
+              width: appWidth - 64,
+              height: 270,
+              child: FutureBuilder(
+                future: getData(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting || snapshot.hasError) {
+                    return Text('');
+                  }
+                  else if (snapshot.hasData && snapshot.data != null && !(textChanged)) {
+                    var data = snapshot.data;
+                    List<String> words = List<String>.from(data?['keywords'] ?? []);
+                    words.addAll(List<String>.from(data?['wrongwords'] ?? []));
+                    return KeyWordText(
+                        text: List<String>.from(data?['ask'] ?? []),
+                        keywordsstr: words,
+                        width: appWidth - 32,
+                        height: 300
+                    );
+                  }
+                  else if (snapshot.hasData && snapshot.data != null && textChanged) {
+                    var data = snapshot.data;
+                    String wa = data?['wrongAnswer'] ?? "";
+                    String ca = data?['correctAnswer'] ?? "";
+                    return RichText(
+                      text: TextSpan(
+                        text: result? ca : wa,
                         style: TextStyle(
                           color: black,
                           fontSize: sizetext,
                           fontFamily: "Gazprombank-Sans",
                         ),
-                      );
-                    }
-                    else {
-                      return Text('');
-                    }
+                      ),
+                    );
                   }
-                )
+                  else {
+                    return Text('');
+                  }
+                }
+              )
             ),
           ],
         ),
